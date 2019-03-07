@@ -45,6 +45,7 @@ source distribution.
 #define PATH_SEPARATOR_STRING "\\"
 #ifdef _MSC_VER
 #include <direct.h> //gcc doesn't use this
+#define mkdir _mkdir
 #endif //_MSC_VER
 #else
 #include <libgen.h>
@@ -224,7 +225,7 @@ bool FileSystem::createDirectory(const std::string& path)
 {
     //TODO regex this or at least check for illegal chars
 #ifdef _WIN32
-    if (_mkdir(path.c_str()) == 0)
+    if (mkdir(path.c_str()) == 0)
     {
         return true;
     }
@@ -517,7 +518,7 @@ std::string FileSystem::getConfigDirectory(const std::string& appName)
     strcat(out, "\\");
     strcat(out, appname);
     /* Make the AppData\appname folder if it doesn't already exist */
-    _mkdir(out);
+    mkdir(out);
     strcat(out, "\\");
 
 #elif defined(__APPLE__)
